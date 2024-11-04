@@ -1,5 +1,6 @@
 ﻿using GamingCatalogue.Core.Model;
 using GamingCatalogue.Services.Interface;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamingCatalogue.API.Controllers
@@ -43,10 +44,10 @@ namespace GamingCatalogue.API.Controllers
         /// <param name="gameId"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetGameById(int gameId)
+        public async Task<IActionResult> GetGameById([FromRoute] int id)
         {
             _logger.LogInformation("Start GetGameById call");
-            var gamesDetails = await _gameDetailService.GetGameByIdAsync(gameId);
+            var gamesDetails = await _gameDetailService.GetGameByIdAsync(id);
 
             if (gamesDetails != null)
             {
@@ -118,10 +119,10 @@ namespace GamingCatalogue.API.Controllers
         /// <param name="gameId"></param>
         /// <returns></returns>
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleteGame(int gameId)
+        public async Task<IActionResult> DeleteGame([FromRoute] int id)
         {
             _logger.LogInformation("Start DeleteGame call");
-            var isDeleted = await _gameDetailService.DeleteGameAsync(gameId);
+            var isDeleted = await _gameDetailService.DeleteGameAsync(id);
 
             if (isDeleted)
             {
