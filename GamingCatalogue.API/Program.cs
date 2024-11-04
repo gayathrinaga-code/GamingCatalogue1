@@ -19,6 +19,18 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+// cors enabled
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowAllOrigin",
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost:4200")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod();
+                      });
+});
+
 // Add services to the container.
 builder.Services.AddInfraConfigServices(builder.Configuration);
 builder.Services.AddScoped<IGameDetailService, GameDetailService>();
@@ -39,6 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAllOrigin");
 
 app.UseHttpsRedirection();
 
